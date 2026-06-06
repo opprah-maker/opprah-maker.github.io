@@ -1,26 +1,141 @@
 <!DOCTYPE HTML>
 <!--
 	Opprah Manyika : Aerospace Engineering Portfolio
-	Template: Miniport by HTML5 UP (CCA 3.0 license)
+	TRELLIS.2-inspired design with collapsible sections and panable imagery
 -->
 <html lang="en-GB">
 	<head>
 		<title>Opprah Manyika : Aerospace Engineering Portfolio</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<meta name="description" content="Aerospace engineering portfolio : CFD, fluid-structure interaction, aerodynamics, numerical methods, and aircraft conceptual design. University projects in MATLAB, ANSYS Fluent, and SolidWorks." />
-		<meta name="author" content="Opprah Manyika" />
-		<meta property="og:title" content="Opprah Manyika : Aerospace Engineering Portfolio" />
-		<meta property="og:description" content="Aerospace engineering portfolio. CFD, aerodynamics, numerical methods, and aircraft design." />
-		<meta property="og:type" content="website" />
-		<meta property="og:url" content="https://opprah-maker.github.io/" />
+		<meta name="description" content="Aerospace engineering portfolio. CFD, fluid-structure interaction, aerodynamics, numerical methods, and aircraft conceptual design." />
 		<link rel="stylesheet" href="assets/css/main.css" />
+		<style>
+			/* TRELLIS.2-inspired dark theme */
+			:root {
+				--bg-primary: #0a0e1a;
+				--bg-secondary: #111827;
+				--bg-card: #1a2332;
+				--text-primary: #e2e8f0;
+				--text-secondary: #94a3b8;
+				--accent: #38bdf8;
+				--accent-hover: #0ea5e9;
+				--border: #1e293b;
+			}
+			body {
+				background: var(--bg-primary);
+				color: var(--text-primary);
+				font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+			}
+			article.wrapper {
+				background: var(--bg-primary);
+				border-bottom: 1px solid var(--border);
+			}
+			article.wrapper.style1 { background: var(--bg-secondary); }
+			article.wrapper.style2 { background: var(--bg-primary); }
+			article.wrapper.style3 { background: var(--bg-secondary); }
+			article.wrapper.style4 { background: var(--bg-primary); }
+			h1, h2, h3 { color: var(--text-primary); }
+			h1 strong, h2 strong { color: var(--accent); }
+			p, li { color: var(--text-secondary); }
+			header p { color: var(--text-secondary); }
+			section.box {
+				background: var(--bg-card);
+				border: 1px solid var(--border);
+				border-radius: 8px;
+				transition: transform 0.3s, box-shadow 0.3s;
+			}
+			section.box:hover {
+				transform: translateY(-4px);
+				box-shadow: 0 12px 40px rgba(56, 189, 248, 0.15);
+				border-color: var(--accent);
+			}
+			section.box h3 { color: var(--text-primary); }
+			.box.style2 {
+				background: var(--bg-card);
+				border: 1px solid var(--border);
+				border-radius: 8px;
+				overflow: hidden;
+			}
+			.box.style2:hover { border-color: var(--accent); }
+			.box.style2 h3 a { color: var(--text-primary); }
+			.button {
+				background: var(--accent);
+				color: #0a0e1a;
+				border: none;
+				font-weight: 600;
+			}
+			.button.alt { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+			a { color: var(--accent); }
+			a:hover { color: var(--accent-hover); }
+			nav#nav ul li a { color: var(--text-secondary); }
+			nav#nav ul li a:hover { color: var(--accent); }
+			/* Panable image container */
+			.pan-container {
+				overflow: hidden;
+				border-radius: 6px;
+				cursor: grab;
+				background: #000;
+				position: relative;
+			}
+			.pan-container:active { cursor: grabbing; }
+			.pan-container img {
+				transition: transform 0.3s ease;
+				width: 100%;
+				display: block;
+			}
+			.pan-container .pan-hint {
+				position: absolute;
+				bottom: 8px;
+				right: 8px;
+				background: rgba(0,0,0,0.7);
+				color: #fff;
+				padding: 4px 8px;
+				border-radius: 4px;
+				font-size: 0.75em;
+				opacity: 0.7;
+			}
+			/* Collapsible details */
+			details.collapse-box {
+				background: var(--bg-card);
+				border: 1px solid var(--border);
+				border-radius: 8px;
+				margin: 1em 0;
+				padding: 0;
+			}
+			details.collapse-box summary {
+				padding: 1em 1.2em;
+				cursor: pointer;
+				font-weight: 600;
+				color: var(--text-primary);
+				font-size: 1.1em;
+				list-style: none;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+			}
+			details.collapse-box summary::-webkit-details-marker { display: none; }
+			details.collapse-box summary::after {
+				content: '+';
+				font-size: 1.4em;
+				color: var(--accent);
+				transition: transform 0.3s;
+			}
+			details.collapse-box[open] summary::after { content: '-'; }
+			details.collapse-box[open] { border-color: var(--accent); }
+			details.collapse-box .content {
+				padding: 0 1.2em 1.2em;
+			}
+			/* MathJax display */
+			mjx-container { color: var(--text-primary) !important; }
+		</style>
 		<script>
 			MathJax = {
 				tex: {
 					inlineMath: [['$', '$'], ['\\(', '\\)']],
 					displayMath: [['$$', '$$'], ['\\[', '\\]']]
-				}
+				},
+				svg: { fontCache: 'global' }
 			};
 		</script>
 		<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -31,9 +146,10 @@
 			<nav id="nav">
 				<ul class="container">
 					<li><a href="#top">Home</a></li>
-					<li><a href="#work">Domains</a></li>
-					<li><a href="#portfolio">Projects</a></li>
+					<li><a href="#dissertation">Dissertation</a></li>
+					<li><a href="#projects">Projects</a></li>
 					<li><a href="#methodology">Methodology</a></li>
+					<li><a href="#figures">Figures</a></li>
 					<li><a href="#contact">Contact</a></li>
 				</ul>
 			</nav>
@@ -43,21 +159,24 @@
 				<div class="container">
 					<div class="row">
 						<div class="col-4 col-5-large col-12-medium">
-							<span class="image fit"><img src="images/pic00.png" alt="NACA 0012 lift curve from wind-tunnel data" /></span>
+							<div class="pan-container" data-pan-zoom>
+								<img src="images/pic00.png" alt="NACA 0012 lift curve from wind-tunnel data" />
+								<span class="pan-hint">drag to pan · scroll to zoom</span>
+							</div>
 						</div>
 						<div class="col-8 col-7-large col-12-medium">
 							<header>
 								<h1>Hi. I'm <strong>Opprah Manyika</strong>.</h1>
 							</header>
 							<p>Aerospace engineer working at the intersection of <strong>computational fluid dynamics</strong>,
-							<strong>fluid-structure interaction</strong>, <strong>transient heat transfer</strong>, and
-							<strong>conceptual aircraft design</strong>. Toolchain: MATLAB, GNU Octave, ANSYS Fluent,
-							ANSYS Mechanical, SolidWorks, Git.</p>
+							<strong>fluid-structure interaction</strong>, <strong>transient heat transfer</strong>,
+							<strong>conceptual aircraft design</strong>, and <strong>energy policy modelling</strong>.
+							Toolchain: MATLAB, GNU Octave, ANSYS Fluent, ANSYS Mechanical, SolidWorks, Git.</p>
 							<p>This site is a single-page engineering portfolio. Six university projects, the
 							MATLAB solvers, the ANSYS post-processing, the wind-tunnel data, the hand-written
 							PDE schemes, and the full academic reports as PDFs are all in the linked repositories.</p>
 							<ul class="actions">
-								<li><a href="#work" class="button large scrolly">See the engineering domains</a></li>
+								<li><a href="#dissertation" class="button large scrolly">Read my dissertation</a></li>
 								<li><a href="https://github.com/opprah-maker" class="button large alt scrolly">GitHub profile</a></li>
 							</ul>
 						</div>
@@ -65,156 +184,126 @@
 				</div>
 			</article>
 
-		<!-- Work (Engineering Domains) -->
-			<article id="work" class="wrapper style2">
+		<!-- Dissertation (Pinned) -->
+			<article id="dissertation" class="wrapper style2">
 				<div class="container">
 					<header>
-						<h2>Four engineering domains. One toolchain.</h2>
-						<p>CFD and FSI, experimental aerodynamics, numerical methods for PDEs, and
-						aircraft conceptual sizing. Each project is grounded in the underlying physics,
-						mesh-aware, and validated against analytical or experimental benchmarks.</p>
+						<h2><strong>Reforming the UK Energy Market for Sustainable Development</strong></h2>
+						<p>Individual Project Dissertation : Integrating Renewables, Fair Pricing, and Demand-Side Response</p>
 					</header>
-					<div class="row aln-center">
-						<div class="col-4 col-6-medium col-12-small">
-							<section class="box style1">
-								<span class="icon solid featured fa-wind"></span>
-								<h3>Computational Fluid Dynamics</h3>
-								<p>Steady-state RANS with the standard $k-\epsilon$ closure and pressure-based
-								coupling. Unstructured tetrahedral meshes with skewness and orthogonal-quality
-								checks. Rotating reference frames for turbomachinery.</p>
-								<p><a href="https://github.com/opprah-maker/CFD-Axial-Flow-Fan-Analysis" class="button">CFD project</a></p>
-							</section>
+
+					<details class="collapse-box" open>
+						<summary>Abstract</summary>
+						<div class="content">
+							<p>The UK electricity market is undergoing fundamental restructuring to meet the legally binding Net-Zero target by 2050. This dissertation evaluates three reform pathways using a Hybrid Renewable Energy Systems (HRES) modelling framework: Baseline, Renewable Incentivisation, and Demand-Side Response (DSR). The research combines a literature review of UK, German, Danish, and Norwegian energy policy with a quantitative scenario model in MATLAB.</p>
+							<p><strong>Key finding</strong>: DSR delivers an <strong>83.3% carbon reduction</strong> and <strong>125% grid resilience gain</strong> while reducing consumer costs.</p>
 						</div>
-						<div class="col-4 col-6-medium col-12-small">
-							<section class="box style1">
-								<span class="icon solid featured fa-paper-plane"></span>
-								<h3>Experimental Aerodynamics</h3>
-								<p>NACA 0012 wind-tunnel data reduction: lift, drag, and pitching-moment
-								coefficients across $-2^\circ$ to $35^\circ$ angle of attack. Cylinder
-								pressure distribution for boundary-layer validation. $(L/D)_\text{max} \approx 5.12$
-								at $\alpha = 4^\circ$.</p>
-								<p><a href="https://github.com/opprah-maker/Aircraft-Aerodynamics-Design" class="button">Aerodynamics project</a></p>
-							</section>
+					</details>
+
+					<details class="collapse-box">
+						<summary>Scenario Comparison</summary>
+						<div class="content">
+							<table>
+								<thead>
+									<tr><th>Scenario</th><th>Renewable Integration</th><th>Carbon Emissions (Mton/yr)</th><th>Grid Resilience (1-100)</th><th>Consumer Cost (1-100)</th></tr>
+								</thead>
+								<tbody>
+									<tr><td><strong>Baseline</strong></td><td>15%</td><td>120</td><td>40</td><td>85</td></tr>
+									<tr><td><strong>Renewable Incentivisation</strong></td><td>65%</td><td>45</td><td>55</td><td>50</td></tr>
+									<tr><td><strong>Demand-Side Response (DSR)</strong></td><td>80%</td><td>20</td><td>90</td><td>30</td></tr>
+								</tbody>
+							</table>
 						</div>
-						<div class="col-4 col-6-medium col-12-small">
-							<section class="box style1">
-								<span class="icon solid featured fa-calculator"></span>
-								<h3>Numerical Methods</h3>
-								<p>Hand-written explicit FTCS solver for the 2D transient heat equation with
-								Dirichlet boundary conditions. Stability enforced via the von Neumann
-								criterion $\Delta t \le h^2 / (4\alpha)$. 11x11 grid, marching to
-								$|T^{n+1} - T^n|_\infty &lt; 10^{-3}$.</p>
-								<p><a href="https://github.com/opprah-maker/Heat-Conduction-FDM-Analysis" class="button">FDM project</a></p>
-							</section>
+					</details>
+
+					<details class="collapse-box">
+						<summary>Key Figures (drag to pan, scroll to zoom)</summary>
+						<div class="content">
+							<div class="row">
+								<div class="col-6">
+									<h4>Figure 4 : Carbon Emission Reduction Trajectory</h4>
+									<div class="pan-container" data-pan-zoom>
+										<img src="https://raw.githubusercontent.com/opprah-maker/UK-Energy-Market-Sustainable-Reform/main/images/figure-04.png" alt="Carbon emission reduction trajectory" />
+										<span class="pan-hint">drag to pan · scroll to zoom</span>
+									</div>
+								</div>
+								<div class="col-6">
+									<h4>Figure 16 : Integrated Market Reform Framework</h4>
+									<div class="pan-container" data-pan-zoom>
+										<img src="https://raw.githubusercontent.com/opprah-maker/UK-Energy-Market-Sustainable-Reform/main/images/figure-16.png" alt="Integrated market reform framework" />
+										<span class="pan-hint">drag to pan · scroll to zoom</span>
+									</div>
+								</div>
+							</div>
 						</div>
-						<div class="col-4 col-6-medium col-12-small">
-							<section class="box style1">
-								<span class="icon featured fa-cogs"></span>
-								<h3>Aircraft Conceptual Design</h3>
-								<p>Heavy-lift transport aircraft sizing loop. Wing loading
-								$W/S = 10{,}980\,\text{N/m}^2$, thrust-to-weight $T/W = 0.30$,
-								directional-stability derivative $C_{n_\beta} > 0.004$. Vertical-tail
-								volume coefficient sized for engine-out case.</p>
-								<p><a href="https://github.com/opprah-maker/Aircraft-Aerodynamics-Design" class="button">Design project</a></p>
-							</section>
-						</div>
-						<div class="col-4 col-6-medium col-12-small">
-							<section class="box style1">
-								<span class="icon solid featured fa-fire"></span>
-								<h3>Inlet &amp; Gas-Turbine Aerodynamics</h3>
-								<p>Elliptical bellmouth inlet optimisation for a small gas turbine.
-								Mass flow $\dot m = 1.0\,\text{kg/s}$, total-pressure recovery
-								$\eta_p > 0.99$, validated against the von Karman integral
-								boundary-layer method.</p>
-								<p><a href="https://github.com/opprah-maker/Bellmouth-Inlet-CFD-Gas-Turbine" class="button">Bellmouth project</a></p>
-							</section>
-						</div>
-						<div class="col-4 col-6-medium col-12-small">
-							<section class="box style1">
-								<span class="icon featured fa-bolt"></span>
-								<h3>Energy &amp; Policy Modelling</h3>
-								<p>UK electricity market reform towards Net-Zero: HRES scenario analysis
-								(Baseline, Renewable Incentivisation, Demand-Side Response). 83.3% carbon
-								reduction and 125% grid-resilience gain modelled across scenarios.</p>
-								<p><a href="https://github.com/opprah-maker/UK-Energy-Market-Sustainable-Reform" class="button">UK Energy project</a></p>
-							</section>
-						</div>
-					</div>
+					</details>
+
 					<footer>
-						<p>All projects are university work. Code, data, and reports are public.</p>
-						<a href="#portfolio" class="button large scrolly">Browse the project gallery</a>
+						<p>Full dissertation with all 31 figures and the MATLAB scenario model.</p>
+						<a href="https://github.com/opprah-maker/UK-Energy-Market-Sustainable-Reform" class="button large">View on GitHub</a>
 					</footer>
 				</div>
 			</article>
 
-		<!-- Portfolio (Projects Gallery) -->
-			<article id="portfolio" class="wrapper style3">
+		<!-- Projects -->
+			<article id="projects" class="wrapper style3">
 				<div class="container">
 					<header>
-						<h2>Project gallery.</h2>
-						<p>Six engineering projects, each with a public GitHub repository, a PDF
-						report, the source MATLAB, and the extracted figures.</p>
+						<h2>Engineering projects.</h2>
+						<p>Six university projects, each with a public GitHub repository, a PDF report, the source MATLAB, and the extracted figures.</p>
 					</header>
 					<div class="row">
 						<div class="col-4 col-6-medium col-12-small">
 							<article class="box style2">
-								<a href="https://github.com/opprah-maker/CFD-Axial-Flow-Fan-Analysis" class="image featured"><img src="images/pic03.png" alt="CFD pressure contour on axial-flow fan" /></a>
-								<h3><a href="https://github.com/opprah-maker/CFD-Axial-Flow-Fan-Analysis">CFD &amp; FSI of an Axial-Flow Fan</a></h3>
-								<p>ANSYS Fluent + Mechanical FSI of a computer cooling fan. 7,805-element
-								unstructured tetrahedral mesh, $k-\epsilon$ turbulence, $+2.1\%$ efficiency
-								over baseline, validated within $\pm 3\%$.</p>
+								<div class="pan-container" data-pan-zoom>
+									<img src="https://raw.githubusercontent.com/opprah-maker/CFD-Axial-Flow-Fan-Analysis/main/images/figure-01.png" alt="CFD velocity streamlines" />
+									<span class="pan-hint">drag · scroll to zoom</span>
+								</div>
+								<h3><a href="https://github.com/opprah-maker/CFD-Axial-Flow-Fan-Analysis">CFD &amp; FSI : Axial-Flow Fan</a></h3>
+								<p>ANSYS Fluent + Mechanical FSI. 60mm fan, 6 NACA 0012 blades, $k-\omega$ SST. Optimal angle $30°$. Max stress 15.2 MPa.</p>
 							</article>
 						</div>
 						<div class="col-4 col-6-medium col-12-small">
 							<article class="box style2">
-								<a href="https://github.com/opprah-maker/Bellmouth-Inlet-CFD-Gas-Turbine" class="image featured"><img src="images/pic04.png" alt="Bellmouth inlet pressure recovery contour" /></a>
-								<h3><a href="https://github.com/opprah-maker/Bellmouth-Inlet-CFD-Gas-Turbine">Bellmouth Inlet for a Gas Turbine</a></h3>
-								<p>CFD optimisation of an elliptical bellmouth inlet. Mass flow
-								$1.0\,\text{kg/s}$, total-pressure recovery $\eta_p > 0.99$, validated
-								with the von Karman integral boundary layer.</p>
+								<div class="pan-container" data-pan-zoom>
+									<img src="https://raw.githubusercontent.com/opprah-maker/Aircraft-Aerodynamics-Design/main/images/aerodynamics/figure-12.png" alt="NACA 0012 stall" />
+									<span class="pan-hint">drag · scroll to zoom</span>
+								</div>
+								<h3><a href="https://github.com/opprah-maker/Aircraft-Aerodynamics-Design">Aircraft Aerodynamics &amp; Design</a></h3>
+								<p>NACA 0012 wind tunnel ($C_L$, $C_D$ polars) + heavy-lift transport aircraft sizing. $(L/D)_{\max} \approx 5.12$.</p>
 							</article>
 						</div>
 						<div class="col-4 col-6-medium col-12-small">
 							<article class="box style2">
-								<a href="https://github.com/opprah-maker/Aircraft-Aerodynamics-Design" class="image featured"><img src="images/pic01.png" alt="NACA 0012 polar diagram" /></a>
-								<h3><a href="https://github.com/opprah-maker/Aircraft-Aerodynamics-Design">NACA 0012 Aerodynamics</a></h3>
-								<p>Wind-tunnel data reduction across $-2^\circ$ to $35^\circ$ angle of attack.
-								Lift, drag, and pitching-moment coefficients. Stall onset at
-								$\alpha \approx 16^\circ$, $(L/D)_\text{max} \approx 5.12$.</p>
+								<div class="pan-container" data-pan-zoom>
+									<img src="https://raw.githubusercontent.com/opprah-maker/Bellmouth-Inlet-CFD-Gas-Turbine/main/images/figure-09.png" alt="Bellmouth velocity contour" />
+									<span class="pan-hint">drag · scroll to zoom</span>
+								</div>
+								<h3><a href="https://github.com/opprah-maker/Bellmouth-Inlet-CFD-Gas-Turbine">Bellmouth Inlet CFD</a></h3>
+								<p>Elliptical bellmouth for gas turbine. $\eta_p > 0.99$, $\dot{m} = 1.0\,\text{kg/s}$.</p>
 							</article>
 						</div>
 						<div class="col-4 col-6-medium col-12-small">
 							<article class="box style2">
-								<a href="https://github.com/opprah-maker/Aircraft-Aerodynamics-Design" class="image featured"><img src="images/pic02.png" alt="Heavy-lift aircraft three-view drawing" /></a>
-								<h3><a href="https://github.com/opprah-maker/Aircraft-Aerodynamics-Design">Heavy-Lift Aircraft Design</a></h3>
-								<p>Conceptual sizing of a heavy-lift transport aircraft. Wing loading
-								$W/S = 10{,}980\,\text{N/m}^2$, $T/W = 0.30$, $C_{n_\beta} > 0.004$ for
-								directional stability.</p>
-							</article>
-						</div>
-						<div class="col-4 col-6-medium col-12-small">
-							<article class="box style2">
-								<a href="https://github.com/opprah-maker/Heat-Conduction-FDM-Analysis" class="image featured"><img src="images/pic05.png" alt="Steady-state temperature contour from FTCS solver" /></a>
+								<div class="pan-container" data-pan-zoom>
+									<img src="https://raw.githubusercontent.com/opprah-maker/Heat-Conduction-FDM-Analysis/main/images/figure-09.png" alt="Heat conduction steady state" />
+									<span class="pan-hint">drag · scroll to zoom</span>
+								</div>
 								<h3><a href="https://github.com/opprah-maker/Heat-Conduction-FDM-Analysis">2D Heat Conduction (FDM)</a></h3>
-								<p>Hand-written explicit FTCS solver for transient 2D heat conduction on a
-								square plate. Von Neumann stability enforced. Steady state reached in
-								$1{,}500\,\text{s}$.</p>
+								<p>Explicit FTCS solver. Von Neumann stability. Steady state at $t \approx 1{,}500\,\text{s}$.</p>
 							</article>
 						</div>
 						<div class="col-4 col-6-medium col-12-small">
 							<article class="box style2">
-								<a href="https://github.com/opprah-maker/UK-Energy-Market-Sustainable-Reform" class="image featured"><img src="images/pic07.png" alt="UK energy market scenario analysis" /></a>
+								<div class="pan-container" data-pan-zoom>
+									<img src="https://raw.githubusercontent.com/opprah-maker/UK-Energy-Market-Sustainable-Reform/main/images/figure-11.png" alt="UK renewable energy growth" />
+									<span class="pan-hint">drag · scroll to zoom</span>
+								</div>
 								<h3><a href="https://github.com/opprah-maker/UK-Energy-Market-Sustainable-Reform">UK Energy Market Reform</a></h3>
-								<p>HRES scenario modelling: Baseline, Renewable Incentivisation, and
-								Demand-Side Response. 83.3% carbon reduction and 125% grid-resilience
-								gain modelled for the Net-Zero pathway.</p>
+								<p>Individual project dissertation. HRES scenario modelling. 83.3% carbon reduction, 125% grid resilience gain.</p>
 							</article>
 						</div>
 					</div>
-					<footer>
-						<p>Want to read the full technical report?</p>
-						<a href="#methodology" class="button large scrolly">See the engineering methodology</a>
-					</footer>
 				</div>
 			</article>
 
@@ -223,57 +312,142 @@
 				<div class="container">
 					<header>
 						<h2>Engineering methodology.</h2>
-						<p>How the work is grounded: the conservation laws, the discretisation,
-						the mesh, the boundary conditions, the validation, and the uncertainty.</p>
+						<p>How the work is grounded: conservation laws, discretisation, mesh, boundary conditions, validation, and uncertainty.</p>
 					</header>
-					<div class="row">
-						<div class="col-6 col-12-medium">
-							<section>
-								<h3>1. Governing equations</h3>
-								<p>For CFD: incompressible RANS with the standard $k-\epsilon$ closure.</p>
-								<p>$$\frac{\partial}{\partial x_i}(\rho u_i u_j) = -\frac{\partial p}{\partial x_j} + \frac{\partial}{\partial x_i}\left[\left(\mu + \mu_t\right)\left(\frac{\partial u_j}{\partial x_i} + \frac{\partial u_i}{\partial x_j}\right)\right]$$</p>
-								<p>For the heat solver: 2D transient heat conduction on a square plate.</p>
-								<p>$$\frac{\partial T}{\partial t} = \alpha \left(\frac{\partial^2 T}{\partial x^2} + \frac{\partial^2 T}{\partial y^2}\right), \quad \alpha = \frac{k}{\rho c_p}$$</p>
-							</section>
+
+					<details class="collapse-box" open>
+						<summary>1. Governing equations</summary>
+						<div class="content">
+							<p>For CFD: incompressible RANS with the $k-\omega$ SST closure.</p>
+							<p>$$\frac{\partial}{\partial x_i}(\rho u_i u_j) = -\frac{\partial p}{\partial x_j} + \frac{\partial}{\partial x_i}\left[\left(\mu + \mu_t\right)\left(\frac{\partial u_j}{\partial x_i} + \frac{\partial u_i}{\partial x_j}\right)\right]$$</p>
+							<p>For the heat solver: 2D transient heat conduction on a square plate.</p>
+							<p>$$\frac{\partial T}{\partial t} = \alpha \left(\frac{\partial^2 T}{\partial x^2} + \frac{\partial^2 T}{\partial y^2}\right), \quad \alpha = \frac{k}{\rho c_p}$$</p>
 						</div>
-						<div class="col-6 col-12-medium">
-							<section>
-								<h3>2. Discretisation</h3>
-								<p>CFD: second-order upwind, SIMPLE pressure-velocity coupling, residuals
-								to $10^{-5}$.</p>
-								<p>Heat: explicit FTCS in space and time.</p>
-								<p>$$T_{i,j}^{n+1} = T_{i,j}^{n} + r\left(T_{i+1,j}^{n} + T_{i-1,j}^{n} + T_{i,j+1}^{n} + T_{i,j-1}^{n} - 4T_{i,j}^{n}\right), \quad r = \frac{\alpha \Delta t}{h^2}$$</p>
-								<p>Aerodynamics: polynomial fits to the wind-tunnel data, lift-curve
-								slope extracted by linear regression on the linear region.</p>
-							</section>
+					</details>
+
+					<details class="collapse-box">
+						<summary>2. Discretisation</summary>
+						<div class="content">
+							<p>CFD: second-order upwind, SIMPLE pressure-velocity coupling, residuals to $10^{-5}$.</p>
+							<p>Heat: explicit FTCS in space and time.</p>
+							<p>$$T_{i,j}^{n+1} = T_{i,j}^{n} + r\left(T_{i+1,j}^{n} + T_{i-1,j}^{n} + T_{i,j+1}^{n} + T_{i,j-1}^{n} - 4T_{i,j}^{n}\right), \quad r = \frac{\alpha \Delta t}{h^2}$$</p>
 						</div>
-						<div class="col-6 col-12-medium">
-							<section>
-								<h3>3. Stability &amp; convergence</h3>
-								<p>The von Neumann stability criterion for explicit FTCS on a 2D
-								uniform grid is</p>
-								<p>$$r = \frac{\alpha \Delta t}{h^2} \le \frac{1}{4} \quad \Longrightarrow \quad \Delta t \le \frac{h^2}{4\alpha} = 0.25\,\text{s}$$</p>
-								<p>The MATLAB solver checks this assertion at run-time and refuses to
-								advance if the criterion is violated.</p>
-							</section>
+					</details>
+
+					<details class="collapse-box">
+						<summary>3. Stability and convergence</summary>
+						<div class="content">
+							<p>The von Neumann stability criterion for explicit FTCS on a 2D uniform grid is</p>
+							<p>$$r = \frac{\alpha \Delta t}{h^2} \le \frac{1}{4} \quad \Longrightarrow \quad \Delta t \le \frac{h^2}{4\alpha} = 0.25\,\text{s}$$</p>
 						</div>
-						<div class="col-6 col-12-medium">
-							<section>
-								<h3>4. Validation</h3>
-								<p>CFD: validated against the wind-tunnel data within $\pm 3\%$.</p>
-								<p>Aerodynamics: cylinder pressure distribution compared to the
-								theoretical potential-flow solution.</p>
-								<p>Heat: hand-computed corner temperatures compared to the FDM solution
-								at steady state.</p>
-								<p>Bellmouth: total-pressure recovery $\eta_p > 0.99$, compared to the
-								von Karman integral boundary-layer method.</p>
-							</section>
+					</details>
+
+					<details class="collapse-box">
+						<summary>4. Validation</summary>
+						<div class="content">
+							<p>CFD: validated against wind-tunnel data within $\pm 3\%$.</p>
+							<p>Aerodynamics: cylinder pressure distribution compared to potential-flow theory.</p>
+							<p>Heat: hand-computed corner temperatures compared to FDM solution at steady state.</p>
+							<p>Bellmouth: total-pressure recovery $\eta_p > 0.99$, compared to the von Kármán integral boundary-layer method.</p>
 						</div>
-					</div>
-					<footer>
-						<p>All code, data, and reports are in the public repositories below.</p>
-						<a href="#contact" class="button large scrolly">Get in touch</a>
-					</footer>
+					</details>
+				</div>
+			</article>
+
+		<!-- Figures Gallery -->
+			<article id="figures" class="wrapper style2">
+				<div class="container">
+					<header>
+						<h2>Key figures.</h2>
+						<p>Panable and zoomable. Drag to pan, scroll to zoom.</p>
+					</header>
+
+					<details class="collapse-box" open>
+						<summary>Dissertation highlights (UK Energy)</summary>
+						<div class="content">
+							<div class="row">
+								<div class="col-4 col-6-medium col-12-small">
+									<div class="pan-container" data-pan-zoom>
+										<img src="https://raw.githubusercontent.com/opprah-maker/UK-Energy-Market-Sustainable-Reform/main/images/figure-01.png" alt="HRES modelling" />
+										<span class="pan-hint">drag · scroll to zoom</span>
+									</div>
+									<p>Figure 1 : HRES Modelling</p>
+								</div>
+								<div class="col-4 col-6-medium col-12-small">
+									<div class="pan-container" data-pan-zoom>
+										<img src="https://raw.githubusercontent.com/opprah-maker/UK-Energy-Market-Sustainable-Reform/main/images/figure-04.png" alt="Carbon emission reduction" />
+										<span class="pan-hint">drag · scroll to zoom</span>
+									</div>
+									<p>Figure 4 : Carbon Emission Reduction</p>
+								</div>
+								<div class="col-4 col-6-medium col-12-small">
+									<div class="pan-container" data-pan-zoom>
+										<img src="https://raw.githubusercontent.com/opprah-maker/UK-Energy-Market-Sustainable-Reform/main/images/figure-11.png" alt="UK renewable growth" />
+										<span class="pan-hint">drag · scroll to zoom</span>
+									</div>
+									<p>Figure 11 : UK Renewable Growth 2010-2023</p>
+								</div>
+							</div>
+						</div>
+					</details>
+
+					<details class="collapse-box">
+						<summary>CFD highlights</summary>
+						<div class="content">
+							<div class="row">
+								<div class="col-4 col-6-medium col-12-small">
+									<div class="pan-container" data-pan-zoom>
+										<img src="https://raw.githubusercontent.com/opprah-maker/CFD-Axial-Flow-Fan-Analysis/main/images/figure-01.png" alt="Velocity streamlines" />
+										<span class="pan-hint">drag · scroll to zoom</span>
+									</div>
+									<p>CFD : Velocity Streamlines</p>
+								</div>
+								<div class="col-4 col-6-medium col-12-small">
+									<div class="pan-container" data-pan-zoom>
+										<img src="https://raw.githubusercontent.com/opprah-maker/CFD-Axial-Flow-Fan-Analysis/main/images/figure-13.png" alt="FSI stress" />
+										<span class="pan-hint">drag · scroll to zoom</span>
+									</div>
+									<p>CFD : FSI von Mises Stress</p>
+								</div>
+								<div class="col-4 col-6-medium col-12-small">
+									<div class="pan-container" data-pan-zoom>
+										<img src="https://raw.githubusercontent.com/opprah-maker/Bellmouth-Inlet-CFD-Gas-Turbine/main/images/figure-09.png" alt="Bellmouth velocity" />
+										<span class="pan-hint">drag · scroll to zoom</span>
+									</div>
+									<p>Bellmouth : Velocity Contour</p>
+								</div>
+							</div>
+						</div>
+					</details>
+
+					<details class="collapse-box">
+						<summary>Aerodynamics &amp; design highlights</summary>
+						<div class="content">
+							<div class="row">
+								<div class="col-4 col-6-medium col-12-small">
+									<div class="pan-container" data-pan-zoom>
+										<img src="https://raw.githubusercontent.com/opprah-maker/Aircraft-Aerodynamics-Design/main/images/aerodynamics/figure-12.png" alt="NACA 0012 stall" />
+										<span class="pan-hint">drag · scroll to zoom</span>
+									</div>
+									<p>NACA 0012 Stall Onset</p>
+								</div>
+								<div class="col-4 col-6-medium col-12-small">
+									<div class="pan-container" data-pan-zoom>
+										<img src="https://raw.githubusercontent.com/opprah-maker/Aircraft-Aerodynamics-Design/main/images/aircraft-design/figure-01.png" alt="Aircraft three-view" />
+										<span class="pan-hint">drag · scroll to zoom</span>
+									</div>
+									<p>Heavy-Lift : Three-View</p>
+								</div>
+								<div class="col-4 col-6-medium col-12-small">
+									<div class="pan-container" data-pan-zoom>
+										<img src="https://raw.githubusercontent.com/opprah-maker/Heat-Conduction-FDM-Analysis/main/images/figure-09.png" alt="Heat steady state" />
+										<span class="pan-hint">drag · scroll to zoom</span>
+									</div>
+									<p>Heat : Steady-State Contour</p>
+								</div>
+							</div>
+						</div>
+					</details>
 				</div>
 			</article>
 
@@ -282,51 +456,25 @@
 				<div class="container medium">
 					<header>
 						<h2>Find me on GitHub.</h2>
-						<p>All six engineering repositories are public. Each contains the MATLAB
-						solver, the PDF report, and the extracted figures from the original write-up.</p>
+						<p>All six engineering repositories are public.</p>
 					</header>
 					<div class="row">
 						<div class="col-12">
 							<h3>Repositories</h3>
 							<ul class="contact-list">
 								<li><a href="https://github.com/opprah-maker" class="icon brands fa-github"><span class="label">GitHub profile</span></a> <a href="https://github.com/opprah-maker">github.com/opprah-maker</a></li>
+								<li><a href="https://github.com/opprah-maker/UK-Energy-Market-Sustainable-Reform" class="icon solid fa-project-diagram"><span class="label">Dissertation</span></a> <a href="https://github.com/opprah-maker/UK-Energy-Market-Sustainable-Reform">UK-Energy-Market-Sustainable-Reform (Dissertation)</a></li>
 								<li><a href="https://github.com/opprah-maker/CFD-Axial-Flow-Fan-Analysis" class="icon solid fa-project-diagram"><span class="label">CFD</span></a> <a href="https://github.com/opprah-maker/CFD-Axial-Flow-Fan-Analysis">CFD-Axial-Flow-Fan-Analysis</a></li>
-								<li><a href="https://github.com/opprah-maker/Bellmouth-Inlet-CFD-Gas-Turbine" class="icon solid fa-project-diagram"><span class="label">Bellmouth</span></a> <a href="https://github.com/opprah-maker/Bellmouth-Inlet-CFD-Gas-Turbine">Bellmouth-Inlet-CFD-Gas-Turbine</a></li>
 								<li><a href="https://github.com/opprah-maker/Aircraft-Aerodynamics-Design" class="icon solid fa-project-diagram"><span class="label">Aircraft</span></a> <a href="https://github.com/opprah-maker/Aircraft-Aerodynamics-Design">Aircraft-Aerodynamics-Design</a></li>
+								<li><a href="https://github.com/opprah-maker/Bellmouth-Inlet-CFD-Gas-Turbine" class="icon solid fa-project-diagram"><span class="label">Bellmouth</span></a> <a href="https://github.com/opprah-maker/Bellmouth-Inlet-CFD-Gas-Turbine">Bellmouth-Inlet-CFD-Gas-Turbine</a></li>
 								<li><a href="https://github.com/opprah-maker/Heat-Conduction-FDM-Analysis" class="icon solid fa-project-diagram"><span class="label">Heat</span></a> <a href="https://github.com/opprah-maker/Heat-Conduction-FDM-Analysis">Heat-Conduction-FDM-Analysis</a></li>
-								<li><a href="https://github.com/opprah-maker/UK-Energy-Market-Sustainable-Reform" class="icon solid fa-project-diagram"><span class="label">UK-Energy</span></a> <a href="https://github.com/opprah-maker/UK-Energy-Market-Sustainable-Reform">UK-Energy-Market-Sustainable-Reform</a></li>
 							</ul>
-							<hr />
-							<h3>Or send a message</h3>
-							<form method="post" action="https://formspree.io/f/placeholder">
-								<div class="row">
-									<div class="col-6 col-12-small">
-										<input type="text" name="name" id="name" placeholder="Name" />
-									</div>
-									<div class="col-6 col-12-small">
-										<input type="text" name="email" id="email" placeholder="Email" />
-									</div>
-									<div class="col-12">
-										<input type="text" name="subject" id="subject" placeholder="Subject" />
-									</div>
-									<div class="col-12">
-										<textarea name="message" id="message" placeholder="Message"></textarea>
-									</div>
-									<div class="col-12">
-										<ul class="actions">
-											<li><input type="submit" value="Send Message" /></li>
-											<li><input type="reset" value="Clear Form" class="alt" /></li>
-										</ul>
-									</div>
-								</div>
-							</form>
-							<hr />
 						</div>
 					</div>
 					<footer>
 						<ul id="copyright">
 							<li>&copy; 2026 Opprah Manyika. All rights reserved.</li>
-							<li>Design: <a href="http://html5up.net">HTML5 UP</a> (Miniport, CCA 3.0)</li>
+							<li>Design inspired by <a href="https://microsoft.github.io/TRELLIS.2/">TRELLIS.2</a> · Template: <a href="http://html5up.net">HTML5 UP</a> (Miniport, CCA 3.0)</li>
 							<li>Equations rendered with <a href="https://www.mathjax.org/">MathJax</a></li>
 						</ul>
 					</footer>
@@ -340,6 +488,39 @@
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
+		<script>
+		// Pan and zoom for .pan-container
+		document.querySelectorAll('.pan-container').forEach(function(container) {
+			var img = container.querySelector('img');
+			if (!img) return;
+			var scale = 1, panning = false, startX = 0, startY = 0, translateX = 0, translateY = 0;
+
+			img.style.transformOrigin = 'center center';
+
+			container.addEventListener('mousedown', function(e) {
+				e.preventDefault();
+				panning = true;
+				startX = e.clientX - translateX;
+				startY = e.clientY - translateY;
+			});
+			container.addEventListener('mousemove', function(e) {
+				if (!panning) return;
+				translateX = e.clientX - startX;
+				translateY = e.clientY - startY;
+				img.style.transform = 'translate(' + translateX + 'px, ' + translateY + 'px) scale(' + scale + ')';
+			});
+			container.addEventListener('mouseup', function() { panning = false; });
+			container.addEventListener('mouseleave', function() { panning = false; });
+
+			container.addEventListener('wheel', function(e) {
+				e.preventDefault();
+				var delta = e.deltaY > 0 ? 0.9 : 1.1;
+				scale *= delta;
+				scale = Math.max(1, Math.min(scale, 5));
+				img.style.transform = 'translate(' + translateX + 'px, ' + translateY + 'px) scale(' + scale + ')';
+			});
+		});
+		</script>
 
 	</body>
 </html>
