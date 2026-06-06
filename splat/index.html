@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+<title>3D Gaussian Splat Viewer</title>
+<style>
+html, body { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; background: #111; color: #fff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+#canvas { display: block; position: absolute; top: 0; left: 0; width: 100%; height: 100%; touch-action: none; }
+#progress { position: absolute; top: 0; left: 0; height: 3px; background: #4a9eff; z-index: 99; transition: width 0.1s ease-in-out; width: 0; }
+#message { position: absolute; inset: 0; display: none; align-items: center; justify-content: center; color: #ff8080; font-weight: bold; padding: 20px; text-align: center; z-index: 200; pointer-events: none; }
+#spinner { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 50; }
+.cube { width: 60px; height: 60px; transform-style: preserve-3d; transform: rotateX(45deg) rotateZ(45deg); animation: rot 1.5s infinite; }
+.cube-face { position: absolute; inset: 0; background: #4a9eff; opacity: 0.7; }
+.cube-face.top { transform: translateZ(60px); }
+.cube-face.bot { transform: rotateX(-90deg) translateZ(60px); }
+.cube-face.f { transform: translateZ(30px) translateY(0) translateX(0); }
+.cube-face.b { transform: rotateY(180deg) translateZ(60px); }
+.cube-face.l { transform: rotateY(-90deg) translateZ(60px); }
+.cube-face.r { transform: rotateY(90deg) translateZ(60px); }
+@keyframes rot {
+  0% { transform: rotateX(45deg) rotateY(0) rotateZ(45deg); }
+  50% { transform: rotateX(45deg) rotateY(180deg) rotateZ(225deg); }
+  100% { transform: rotateX(45deg) rotateY(360deg) rotateZ(405deg); }
+}
+#info { position: absolute; top: 12px; left: 14px; z-index: 100; max-width: 380px; font-size: 12px; line-height: 1.5; background: rgba(0,0,0,0.55); padding: 10px 14px; border-radius: 8px; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+#info h3 { margin: 0 0 4px 0; font-size: 14px; }
+#info p { margin: 0 0 6px 0; opacity: 0.85; }
+#info a { color: #4a9eff; text-decoration: none; }
+#info a:hover { text-decoration: underline; }
+#hint { position: absolute; bottom: 12px; left: 14px; z-index: 100; font-size: 11px; opacity: 0.85; background: rgba(0,0,0,0.55); padding: 8px 12px; border-radius: 8px; max-width: 360px; line-height: 1.5; }
+#fps { position: absolute; bottom: 10px; right: 12px; z-index: 100; font-size: 11px; opacity: 0.7; }
+</style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<div id="progress"></div>
+<div id="message"></div>
+<div id="spinner"><div class="cube"><div class="cube-face top"></div><div class="cube-face bot"></div><div class="cube-face b"></div><div class="cube-face f"></div><div class="cube-face l"></div><div class="cube-face r"></div></div></div>
+<div id="info">
+  <h3 id="title">3D Gaussian Splat Preview</h3>
+  <p>Drag to orbit. Scroll to zoom. Right-click drag to pan.</p>
+  <p><a id="repoLink" href="#" target="_blank" rel="noopener">View source project on GitHub &rarr;</a></p>
+</div>
+<div id="hint">Generated locally with TripoSR (stabilityai/TripoSR) plus a custom mesh-to-splat converter using scikit-image marching cubes. CPU inference: about 30 s per image. Splat point counts: 60 000 per asset.</div>
+<div id="fps"></div>
+
+<script>
+// Resolve splat URL and metadata from ?s= parameter
+const params = new URLSearchParams(location.search);
+const splatName = params.get('s') || 'fan_02';
+const splatFile = splatName + '.splat';
+// Splats live in ../splats/ relative to this viewer page (which is in /splat/)
+const splatUrl = '../splats/' + splatFile;
+document.getElementById('title').textContent = '3D Gaussian Splat: ' + splatName.replace(/_/g, ' ');
+const repoMap = {
+  'fan_01': 'CFD-Axial-Flow-Fan-Analysis',
+  'fan_02': 'CFD-Axial-Flow-Fan-Analysis',
+  'fan_04': 'CFD-Axial-Flow-Fan-Analysis',
+  'bell_03': 'Bellmouth-Inlet-CFD-Gas-Turbine',
+  'bell_08': 'Bellmouth-Inlet-CFD-Gas-Turbine'
+};
+const repo = repoMap[splatName];
+if (repo) {
+  const rl = document.getElementById('repoLink');
+  rl.href = 'https://github.com/opprah-maker/' + repo;
+  rl.textContent = 'View source project: opprah-maker/' + repo + ' \u2192';
+}
+// Hand the absolute URL to main.js (override default param 'url')
+const newSearch = '?url=' + encodeURIComponent(splatUrl);
+history.replaceState(null, '', location.pathname + newSearch);
+</script>
+<script src="./main.js"></script>
+</body>
+</html>

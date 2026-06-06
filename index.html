@@ -36,6 +36,13 @@
 			.modal-figure .mf-image img { max-width: 100%; max-height: 100%; object-fit: contain; }
 			.modal-figure .mf-caption { font-size: 0.78em; color: #555; line-height: 1.5; margin-top: 0.6em; }
 			.modal-figure .mf-num { font-size: 0.7em; color: #43B3E0; letter-spacing: 0.1em; margin-bottom: 0.2em; font-weight: 600; }
+			/* 3D splat modal */
+			.splat-card { background: #111; max-width: 1100px; width: 100%; padding: 1.5em 1.5em 1.2em 1.5em; position: relative; box-shadow: 0 30px 80px rgba(0,0,0,0.6); color: #fff; }
+			.splat-header { padding: 0.5em 0.5em 0.8em 0.5em; }
+			.splat-frame-wrap { position: relative; width: 100%; aspect-ratio: 16/10; background: #000; overflow: hidden; }
+			.splat-frame-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+			.splat-actions { display: flex; flex-wrap: wrap; gap: 0.5em; margin-top: 1em; padding: 0 0.5em; }
+			.splat-actions .button { font-size: 0.85em; }
 			/* Featured dissertation banner card */
 			.featured-banner { background: #3e3e3e; color: #fff; padding: 2em 2em 2.5em 2em; margin-bottom: 2em; }
 			.featured-banner .fb-eyebrow { color: #43B3E0; font-size: 0.75em; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 0.4em; }
@@ -72,6 +79,7 @@
 					<li><a href="#top">Home</a></li>
 					<li><a href="#work">Domains</a></li>
 					<li><a href="#portfolio">Projects</a></li>
+					<li><a href="#3d">3D</a></li>
 					<li><a href="#methodology">Methodology</a></li>
 					<li><a href="#competencies">Competencies</a></li>
 					<li><a href="#contact">Contact</a></li>
@@ -270,6 +278,63 @@
 					<footer>
 						<p>Want to read the full technical report?</p>
 						<a href="#methodology" class="button large scrolly">See the engineering methodology</a>
+					</footer>
+				</div>
+			</article>
+
+		<!-- 3D Visualisations -->
+			<article id="3d" class="wrapper style1">
+				<div class="container">
+					<header>
+						<h2>3D Gaussian Splat Visualisations.</h2>
+						<p>A small selection of 2D engineering figures regenerated as
+						interactive 3D Gaussian splats using TripoSR (stabilityai/TripoSR)
+						and a custom mesh-to-splat converter with scikit-image marching
+						cubes. Inference runs on the CPU. Each splat contains about 60 000
+						points. Drag to orbit, scroll to zoom.</p>
+					</header>
+					<div class="row">
+						<div class="col-3 col-6-medium col-12-small">
+							<article class="box style2">
+								<a href="#" class="image featured" data-splat="fan_02"><img src="https://raw.githubusercontent.com/opprah-maker/CFD-Axial-Flow-Fan-Analysis/main/images/figure-02.png" alt="CFD fan rotor assembly" /></a>
+								<h3><a href="#" data-splat="fan_02">CFD fan: rotor assembly</a></h3>
+								<p>Six-blade rotor inside the 60&nbsp;mm housing. Source:
+								figure&nbsp;2 of the CFD &amp; FSI report.</p>
+								<p><a href="#" class="button" data-splat="fan_02">View in 3D</a></p>
+							</article>
+						</div>
+						<div class="col-3 col-6-medium col-12-small">
+							<article class="box style2">
+								<a href="#" class="image featured" data-splat="fan_01"><img src="https://raw.githubusercontent.com/opprah-maker/CFD-Axial-Flow-Fan-Analysis/main/images/figure-01.png" alt="CFD fan wireframe" /></a>
+								<h3><a href="#" data-splat="fan_01">CFD fan: blade wireframe</a></h3>
+								<p>Reconstructed from a 2D wireframe. Source: figure&nbsp;1 of
+								the CFD &amp; FSI report.</p>
+								<p><a href="#" class="button" data-splat="fan_01">View in 3D</a></p>
+							</article>
+						</div>
+						<div class="col-3 col-6-medium col-12-small">
+							<article class="box style2">
+								<a href="#" class="image featured" data-splat="bell_03"><img src="https://raw.githubusercontent.com/opprah-maker/Bellmouth-Inlet-CFD-Gas-Turbine/main/images/figure-03.png" alt="Bellmouth inlet mesh" /></a>
+								<h3><a href="#" data-splat="bell_03">Bellmouth: inlet mesh</a></h3>
+								<p>Reconstructed from the 2D mesh layout. Source: figure&nbsp;3
+								of the bellmouth CFD report.</p>
+								<p><a href="#" class="button" data-splat="bell_03">View in 3D</a></p>
+							</article>
+						</div>
+						<div class="col-3 col-6-medium col-12-small">
+							<article class="box style2">
+								<a href="#" class="image featured" data-splat="bell_08"><img src="https://raw.githubusercontent.com/opprah-maker/Bellmouth-Inlet-CFD-Gas-Turbine/main/images/figure-08.png" alt="Bellmouth pressure contour" /></a>
+								<h3><a href="#" data-splat="bell_08">Bellmouth: pressure field</a></h3>
+								<p>Reconstructed from the static pressure contour. Source:
+								figure&nbsp;8 of the bellmouth CFD report.</p>
+								<p><a href="#" class="button" data-splat="bell_08">View in 3D</a></p>
+							</article>
+						</div>
+					</div>
+					<footer>
+						<p>All splats were generated locally on a GTX 1050 (2&nbsp;GB VRAM,
+						CPU inference mode). TripoSR was patched to use scikit-image marching
+						cubes in place of the CUDA-only <code>torchmcubes</code>.</p>
 					</footer>
 				</div>
 			</article>
@@ -498,6 +563,22 @@
 			</div>
 		</div>
 
+		<!-- Modal: 3D Gaussian splat viewer -->
+		<div class="modal-overlay" id="splat-modal" aria-hidden="true" style="background: rgba(10,12,18,0.96);">
+			<div class="splat-card" role="dialog" aria-modal="true" aria-labelledby="splat-title">
+				<button class="modal-close" id="splat-close" aria-label="Close viewer">&times;</button>
+				<div class="splat-header">
+					<div class="modal-eyebrow" id="splat-eyebrow">3D Gaussian Splat</div>
+					<h3 class="modal-title" id="splat-title" style="color:#fff;">Loading viewer</h3>
+					<p class="modal-subtitle" id="splat-subtitle" style="color:#bbb;">Drag to orbit, scroll to zoom, right-click drag to pan.</p>
+				</div>
+				<div class="splat-frame-wrap">
+					<iframe id="splat-frame" title="3D Gaussian Splat viewer" src="about:blank" allow="fullscreen"></iframe>
+				</div>
+				<div class="splat-actions" id="splat-actions"></div>
+			</div>
+		</div>
+
 		<!-- Project figure data (kept in JS for modal rendering) -->
 		<script>
 		// Project figure data: each entry has title, subtitle, repo URL, PDF URL, MATLAB URL, and figure list.
@@ -660,18 +741,73 @@
 			document.getElementById('project-modal').setAttribute('aria-hidden', 'true');
 			document.body.style.overflow = '';
 		}
+
+		// 3D Gaussian splat modal
+		const SPLAT_META = {
+			'fan_02':  { title: 'CFD fan: rotor assembly', repo: 'CFD-Axial-Flow-Fan-Analysis',          src: 'https://raw.githubusercontent.com/opprah-maker/CFD-Axial-Flow-Fan-Analysis/main/images/figure-02.png' },
+			'fan_01':  { title: 'CFD fan: blade wireframe', repo: 'CFD-Axial-Flow-Fan-Analysis',          src: 'https://raw.githubusercontent.com/opprah-maker/CFD-Axial-Flow-Fan-Analysis/main/images/figure-01.png' },
+			'bell_03': { title: 'Bellmouth: inlet mesh',     repo: 'Bellmouth-Inlet-CFD-Gas-Turbine',      src: 'https://raw.githubusercontent.com/opprah-maker/Bellmouth-Inlet-CFD-Gas-Turbine/main/images/figure-03.png' },
+			'bell_08': { title: 'Bellmouth: pressure field', repo: 'Bellmouth-Inlet-CFD-Gas-Turbine',      src: 'https://raw.githubusercontent.com/opprah-maker/Bellmouth-Inlet-CFD-Gas-Turbine/main/images/figure-08.png' }
+		};
+		function openSplat(key) {
+			const meta = SPLAT_META[key];
+			if (!meta) return;
+			document.getElementById('splat-title').textContent = meta.title;
+			document.getElementById('splat-eyebrow').textContent = '3D Gaussian Splat : ' + key;
+			const frame = document.getElementById('splat-frame');
+			frame.src = 'splat/?s=' + encodeURIComponent(key);
+			const actions = document.getElementById('splat-actions');
+			actions.innerHTML = '';
+			const repoBtn = document.createElement('a');
+			repoBtn.href = 'https://github.com/opprah-maker/' + meta.repo;
+			repoBtn.className = 'button';
+			repoBtn.target = '_blank';
+			repoBtn.rel = 'noopener';
+			repoBtn.textContent = 'Source project: ' + meta.repo;
+			actions.appendChild(repoBtn);
+			const openBtn = document.createElement('a');
+			openBtn.href = 'splat/?s=' + encodeURIComponent(key);
+			openBtn.className = 'button alt';
+			openBtn.target = '_blank';
+			openBtn.rel = 'noopener';
+			openBtn.textContent = 'Open viewer in new tab';
+			actions.appendChild(openBtn);
+			document.getElementById('splat-modal').classList.add('open');
+			document.getElementById('splat-modal').setAttribute('aria-hidden', 'false');
+			document.body.style.overflow = 'hidden';
+		}
+		function closeSplat() {
+			document.getElementById('splat-modal').classList.remove('open');
+			document.getElementById('splat-modal').setAttribute('aria-hidden', 'true');
+			document.getElementById('splat-frame').src = 'about:blank';
+			document.body.style.overflow = '';
+		}
+
 		document.addEventListener('click', function(e) {
-			const trigger = e.target.closest('[data-project]');
-			if (trigger) {
+			const proj = e.target.closest('[data-project]');
+			if (proj) {
 				e.preventDefault();
-				openModal(trigger.getAttribute('data-project'));
+				openModal(proj.getAttribute('data-project'));
+				return;
+			}
+			const splat = e.target.closest('[data-splat]');
+			if (splat) {
+				e.preventDefault();
+				openSplat(splat.getAttribute('data-splat'));
+				return;
 			}
 			if (e.target.id === 'project-modal' || e.target.id === 'modal-close') {
 				closeModal();
 			}
+			if (e.target.id === 'splat-modal' || e.target.id === 'splat-close') {
+				closeSplat();
+			}
 		});
 		document.addEventListener('keydown', function(e) {
-			if (e.key === 'Escape') closeModal();
+			if (e.key === 'Escape') {
+				closeModal();
+				closeSplat();
+			}
 		});
 		</script>
 
